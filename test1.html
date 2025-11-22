@@ -20,6 +20,7 @@
         padding: 25px;
         border-radius: 12px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        text-align: center;
     }
 
     h3 {
@@ -37,6 +38,7 @@
         font-size: 1rem;
         cursor: pointer;
         transition: background 0.2s, border 0.2s;
+        text-align: right;
     }
 
     label:hover {
@@ -95,8 +97,15 @@
 
 <div class="question-box">
 
+    <!-- صفحه شروع -->
+    <div id="start-area">
+        <h2>سلام محمدرضای گشنگم😍</h2>
+        <p>به مناسبت دومین سالی که مخمو زدی😁یه کادوی کوچولو دارم برات. اگه تو این مدت منو خوب شناخته باشی، میتونی آدرس کادوتو دریافت کنی😋</p>
+        <button onclick="startQuiz()">شروع آزمون</button>
+    </div>
+
     <!-- بخش سوالات -->
-    <div id="quiz-area">
+    <div id="quiz-area" style="display:none;">
         <h3 id="question"></h3>
         <div id="options"></div>
         <button onclick="nextQuestion()">ثبت پاسخ</button>
@@ -104,7 +113,7 @@
     </div>
 
     <!-- بخش پایان -->
-    <div id="finish-area" style="display:none; text-align:center;">
+    <div id="finish-area" style="display:none;">
         <h2 id="finish-title"></h2>
         <p id="finish-message"></p>
         <button onclick="restartQuiz()">شروع دوباره</button>
@@ -115,60 +124,27 @@
 <script>
 // سوالات
 const questions = [
-    {
-        q: "وقتی حالم بد باشه معمولا چیکار میکنم؟",
-        opts: ["زیاد حرف میزنم", "تو خودم میرم", "شروع میکنم شوخی کردن", "میخوابم"],
-        correct: 1  // می‌توانی عدد صحیح دلخواه را قرار بدهی یا همه 0 بگذاری برای آزمون شخصیتی
-    },
-    {
-        q: "بیشتر از همه چی از چی انرژی میگیرم؟",
-        opts: ["تنهایی و سکوت", "موسیقی", "وقت گذروندن با کساییکه دوسشون دارم", "کار و فعالیت"],
-        correct: 2
-    },
-    {
-        q: "بیشترین چیزی که باعث عصبانیتم میشه چیه؟",
-        opts: ["بی احترامی", "بی توجهی", "شلوغ کاری زیاد", "دیر کردن"],
-        correct: 1
-    },
-    {
-        q: "وقتی خوشحال باشم اولین کاری که میکنم چیه؟",
-        opts: ["خوردن چیزی", "شروع میکنم حرف زدن", "پیام دادن به تو", "موسیقی گوش دادن"],
-        correct: 2
-    },
-    {
-        q: "بهترین نوع قرار برا من چیه؟",
-        opts: ["قدم زدن", "کافه", "فیلم دیدن", "طبیعت"],
-        correct: 3
-    },
-    {
-        q: "وقتی ناراحتم دوست دارم چیکار کنی؟",
-        opts: ["سکوت کنم و به حرفات گوش بدم", "بغلت کنم و دلداریت بدم", "راه حل بدم", "حواستو پرت کنم"],
-        correct: 1
-    },
-    {
-        q: "تو رابطه بیشتر دنبال چیم؟",
-        opts: ["آرامش", "رشد کنار هم", "ماجراجویی و تجربه های جدید", "خنده و خوش گذروندن"],
-        correct: 1
-    },
-    {
-        q: "چیزیکه باعث میشه نسبت بهت نرم بشم چیه؟",
-        opts: ["طرز نگاهت", "لحن حرف زدنت", "شوخی هات", "صبر و مهربونی"],
-        correct: 3
-    },
-    {
-        q: "بیشترین نیازی که در رابطه دارم چیه؟",
-        opts: ["امنیت احساسی", "توجه", "احترام به قضای شخصی", "آزادی"],
-        correct: 1
-    },
-    {
-        q: "بیشترین ترسی که دارم چیه؟",
-        opts: ["از دست دادن", "کافی نبودن", "تنها موندن", "درک نشدن"],
-        correct: 1
-    }
+    { q: "وقتی حالم بد باشه معمولا چیکار میکنم؟", opts: ["زیاد حرف میزنم","تو خودم میرم","شروع میکنم شوخی کردن","میخوابم"], correct: 1 },
+    { q: "بیشتر از همه چی از چی انرژی میگیرم؟", opts: ["تنهایی و سکوت","موسیقی","وقت گذروندن با کساییکه دوسشون دارم","کار و فعالیت"], correct: 2 },
+    { q: "بیشترین چیزی که باعث عصبانیتم میشه چیه؟", opts: ["بی احترامی","بی توجهی","شلوغ کاری زیاد","دیر کردن"], correct: 1 },
+    { q: "وقتی خوشحال باشم اولین کاری که میکنم چیه؟", opts: ["خوردن چیزی","شروع میکنم حرف زدن","پیام دادن به تو","موسیقی گوش دادن"], correct: 2 },
+    { q: "بهترین نوع قرار برا من چیه؟", opts: ["قدم زدن","کافه","فیلم دیدن","طبیعت"], correct: 3 },
+    { q: "وقتی ناراحتم دوست دارم چیکار کنی؟", opts: ["سکوت کنم و به حرفات گوش بدم","بغلت کنم و دلداریت بدم","راه حل بدم","حواستو پرت کنم"], correct: 1 },
+    { q: "تو رابطه بیشتر دنبال چیم؟", opts: ["آرامش","رشد کنار هم","ماجراجویی و تجربه های جدید","خنده و خوش گذروندن"], correct: 1 },
+    { q: "چیزیکه باعث میشه نسبت بهت نرم بشم چیه؟", opts: ["طرز نگاهت","لحن حرف زدنت","شوخی هات","صبر و مهربونی"], correct: 3 },
+    { q: "بیشترین نیازی که در رابطه دارم چیه؟", opts: ["امنیت احساسی","توجه","احترام به قضای شخصی","آزادی"], correct: 1 },
+    { q: "بیشترین ترسی که دارم چیه؟", opts: ["از دست دادن","کافی نبودن","تنها موندن","درک نشدن"], correct: 1 }
 ];
 
 let current = 0;
 let score = 0;
+
+// شروع آزمون
+function startQuiz() {
+    document.getElementById("start-area").style.display = "none";
+    document.getElementById("quiz-area").style.display = "block";
+    loadQuestion();
+}
 
 // بارگذاری سوال
 function loadQuestion() {
@@ -214,10 +190,10 @@ function finishQuiz() {
 
     if (score === questions.length) {
         document.getElementById("finish-title").innerText = "افرین گوجوی من😘 تو منو خوب میشناسی😁";
-        document.getElementById("finish-message").innerHTML = "آدرس محل کادوت توی کیفته😁😁";
+        document.getElementById("finish-message").innerHTML = "آدرس کادوت رو یه کاغذ توی کیفته😁😁";
     } else {
-        document.getElementById("finish-title").innerText = "ازاونجاییکه منو خوب نمبشناسی پس جایزه بی جایزه😝";
-        document.getElementById("finish-message").innerText = "دوباره امتحان کن!";
+        document.getElementById("finish-title").innerText = "ازاونجاییکه منو خوب نمیشناسی پس کادو بی کادو😝";
+        document.getElementById("finish-message").innerText = "من چون خیلی مهربونم، میتونی دوباره امتحان کنی😁";
     }
 }
 
@@ -227,13 +203,9 @@ function restartQuiz() {
     score = 0;
 
     document.getElementById("finish-area").style.display = "none";
-    document.getElementById("quiz-area").style.display = "block";
-
-    loadQuestion();
+    document.getElementById("start-area").style.display = "block"; // بازگشت به صفحه شروع
 }
 
-// اجرای اولین سوال
-loadQuestion();
 </script>
 
 </body>
